@@ -1,5 +1,6 @@
 gradle-init-action
 ==================
+[Build Init Plugin](https://docs.gradle.org/current/userguide/build_init_plugin.html)
 ```bash
 gradle init \
   --type java-application \
