@@ -91,4 +91,4 @@ jobs:
     - uses: actions/upload-artifact@v4.6.0
       with:
         name: "my-${{ matrix.template }}-app-jdk-${{ matrix.java-version }}"
-        path: "${{ env.working-directory }}/${{ env.app-name }}"
+        path: "${{ env.working-directory }}"
