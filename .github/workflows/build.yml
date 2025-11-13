@@ -43,6 +43,20 @@ jobs:
 
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v5
+
+    - name: Build with Gradle
+      if: ${{ matrix.template == 'basic' }}
+      run: |
+        mkdir ${{ env.working-directory }} && \
+        cd ${{ env.working-directory }} && \
+        gradle init \
+        --type ${{ matrix.template }} \
+        --dsl kotlin \
+        --test-framework none \
+        --package my.project \
+        --project-name ${{ env.app-name }}  \
+        --no-split-project  \
+        --java-version ${{ matrix.java-version }}
       
     - name: Build with Gradle
       if: ${{ startsWith(matrix.template, 'java') || matrix.template == 'basic' }}
