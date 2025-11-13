@@ -1,16 +1,35 @@
-name: android-gradle-prebuilt-release-actions-workflow
+name: gradle-prebuilt-release-actions-workflow
 on:
   push:
+    paths-ignore: "**/README.md"
+    # # Sequence of patterns matched against refs/tags
+    # tags:
+    #   - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+    #   - 'c*'
+
+permissions:
+    contents: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
   
 jobs:
   build:
     name: Create Release
     runs-on: ubuntu-latest
+    env:
+      app-name: my-app
+      working-directory: project
+    strategy:
+      matrix:
+        java-version: [8, 11, 16, 17, 21, 22]
+        template: [ java-application ]
     steps:
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
+    - name: Set up JDK
+      uses: actions/setup-java@v5.0.0
       with:
-        java-version: '17'
+        java-version: ${{ matrix.java-version }}
         distribution: 'temurin'
 
     - name: Setup Gradle
@@ -18,16 +37,22 @@ jobs:
       
     - name: Build with Gradle
       run: |
-        mkdir project && \
-        cd project && \
+        mkdir ${{ env.working-directory }} && \
+        cd ${{ env.working-directory }} && \
         gradle init \
-        --type java-application \
+        --type ${{ matrix.template }} \
         --dsl kotlin \
         --test-framework junit-jupiter \
         --package my.project \
-        --project-name my-project  \
+        --project-name ${{ matrix.app-name }}  \
         --no-split-project  \
-        --java-version 17
+        --java-version ${{ matrix.java-version }}
 
-    - run: |
+    - working-directory: ${{ env.working-directory }}
+      run: |
         ls -R
+
+    - uses: actions/upload-artifact@v4.6.0
+      with:
+        name: "my-${{ matrix.template }}-app-jdk-${{ matrix.java-version }}"
+        path: "${{ env.working-directory }}/${{ env.app-name }}"
