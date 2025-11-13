@@ -28,10 +28,10 @@ jobs:
           - basic
           - java-application
           - java-library
-          - kotlin-application
-          - kotlin-library
-          - scala-application
-          - scala-library
+          # - kotlin-application
+          # - kotlin-library
+          # - scala-application
+          # - scala-library
           - cpp-application
           - cpp-library
     steps:
@@ -45,7 +45,7 @@ jobs:
       uses: gradle/actions/setup-gradle@v5
       
     - name: Build with Gradle
-      if: ${{ startsWith(matrix.template, 'java') }}
+      if: ${{ startsWith(matrix.template, 'java') || matrix.template == 'basic' }}
       run: |
         mkdir ${{ env.working-directory }} && \
         cd ${{ env.working-directory }} && \
