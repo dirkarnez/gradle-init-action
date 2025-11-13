@@ -45,7 +45,7 @@ jobs:
       uses: gradle/actions/setup-gradle@v5
       
     - name: Build with Gradle
-      if: ${{ startsWith(matrix.template, "java") }}
+      if: ${{ startsWith(matrix.template, 'java') }}
       run: |
         mkdir ${{ env.working-directory }} && \
         cd ${{ env.working-directory }} && \
@@ -58,9 +58,8 @@ jobs:
         --no-split-project  \
         --java-version ${{ matrix.java-version }}
 
-
     - name: Build with Gradle
-      if: ${{ startsWith(matrix.template, "cpp") }}
+      if: ${{ startsWith(matrix.template, 'cpp') }}
       run: |
         mkdir ${{ env.working-directory }} && \
         cd ${{ env.working-directory }} && \
