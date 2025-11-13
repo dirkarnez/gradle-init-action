@@ -24,7 +24,16 @@ jobs:
     strategy:
       matrix:
         java-version: [ 17, 21, 22 ] #[8, 11, 16, 17, 21, 22]
-        template: [ java-application ]
+        template:
+          - basic
+          - java-application
+          - java-library
+          - kotlin-application
+          - kotlin-library
+          - scala-application
+          - scala-library
+          - cpp-application
+          - cpp-library
     steps:
     - name: Set up JDK
       uses: actions/setup-java@v5.0.0
@@ -44,7 +53,7 @@ jobs:
         --dsl kotlin \
         --test-framework junit-jupiter \
         --package my.project \
-        --project-name ${{ matrix.app-name }}  \
+        --project-name ${{ env.app-name }}  \
         --no-split-project  \
         --java-version ${{ matrix.java-version }}
 
