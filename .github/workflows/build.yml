@@ -53,7 +53,6 @@ jobs:
         --type ${{ matrix.template }} \
         --dsl kotlin \
         --test-framework none \
-        --package my.project \
         --project-name ${{ env.app-name }}  \
         --no-split-project  \
         --java-version ${{ matrix.java-version }}
