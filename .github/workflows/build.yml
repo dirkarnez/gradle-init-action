@@ -24,6 +24,7 @@ jobs:
     strategy:
       matrix:
         java-version: [ 17, 21, 22 ] #[8, 11, 16, 17, 21, 22]
+        gradle-version: [ 8.6 ]
         template:
           - basic
           - java-application
@@ -43,6 +44,8 @@ jobs:
 
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v5
+      with:
+        gradle-version: ${{ matrix.gradle-version }}
 
     - name: Build with Gradle
       if: ${{ matrix.template == 'basic' }}
@@ -90,5 +93,5 @@ jobs:
         
     - uses: actions/upload-artifact@v4.6.0
       with:
-        name: "my-${{ matrix.template }}-app-jdk-${{ matrix.java-version }}"
+        name: "my-${{ matrix.template }}-app-jdk-${{ matrix.java-version }}-gradle-${{ matrix.gradle-version }}"
         path: "${{ env.working-directory }}"
