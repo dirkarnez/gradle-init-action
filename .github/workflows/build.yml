@@ -29,8 +29,8 @@ jobs:
           - basic
           - java-application
           - java-library
-          # - kotlin-application
-          # - kotlin-library
+          - kotlin-application
+          - kotlin-library
           # - scala-application
           # - scala-library
           - cpp-application
@@ -77,6 +77,19 @@ jobs:
 # --test-framework cpptest \
     - name: Build with Gradle
       if: ${{ startsWith(matrix.template, 'cpp') }}
+      run: |
+        mkdir ${{ env.working-directory }} && \
+        cd ${{ env.working-directory }} && \
+        gradle init \
+        --type ${{ matrix.template }} \
+        --dsl kotlin \
+        --test-framework none \
+        --project-name ${{ env.app-name }}  \
+        --no-split-project  \
+        --java-version ${{ matrix.java-version }}
+
+    - name: Build with Gradle
+      if: ${{ startsWith(matrix.template, 'kotlin') }}
       run: |
         mkdir ${{ env.working-directory }} && \
         cd ${{ env.working-directory }} && \
