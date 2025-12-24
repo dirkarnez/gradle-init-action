@@ -95,7 +95,7 @@ jobs:
         gradle init \
         --type ${{ matrix.template }} \
         --dsl kotlin \
-        --test-framework none \
+        --test-framework kotlintest \
         --project-name ${{ env.app-name }}  \
         --no-split-project  \
         --java-version ${{ matrix.java-version }}
