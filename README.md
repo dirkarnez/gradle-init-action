@@ -15,3 +15,4 @@ gradle init \
 
 ### TODOs
 - [ ]  Append extra files to the generated project
+- [ ]  Specify Gradle version
